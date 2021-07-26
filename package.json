@@ -17,5 +17,10 @@
     "mysql2": "^2.2.5",
     "sequelize": "^6.6.5",
     "sequelize-cli": "^6.2.0"
+  },
+  "author": "Fajar Nur Rohman",
+  "license": "MIT",
+  "engines": {
+    "node": "14.17.3"
   }
 }
