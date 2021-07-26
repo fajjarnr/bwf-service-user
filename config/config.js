@@ -22,6 +22,6 @@ module.exports = {
     password: DB_PASSWORD,
     database: DB_NAME,
     host: DB_HOSTNAME,
-    dialect: "mysql",
+    dialect: "postgres",
   },
 };
