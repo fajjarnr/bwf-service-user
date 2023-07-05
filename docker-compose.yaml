@@ -1,0 +1,62 @@
+version: "3.9"
+services:
+  service-user:
+    container_name: bwf-service-user
+    image: fajjarnr/bwf-service-user
+    build:
+      context: .
+    restart: always
+    environment:
+      PORT: 5000
+      DB_HOSTNAME: bwf-micro.cyh0sfq8vv2a.ap-southeast-3.rds.amazonaws.com
+      DB_NAME: service_user
+      DB_USERNAME: admin
+      DB_PASSWORD: rahasia123
+    ports:
+      - "5000:5000"
+    networks:
+      - bwf-service-user-network
+    depends_on:
+      - db-service-user
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nginx-service-user
+    image: fajjarnr/nginx-service-user
+    depends_on:
+      - service-user
+    restart: always
+    ports:
+        - "9000:80"
+  db-service-user:
+    container_name: db-service-user
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: service-user
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: rahasia
+    ports:
+      - 3306:3306
+    volumes:
+      - service-user-data:/var/lib/mysql
+    networks:
+      - bwf-service-user-network
+  adminer:
+    image: adminer
+    container_name: adminer
+    depends_on:
+      - db-service-user
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - bwf-service-user-network
+
+networks:
+  bwf-service-user-network:
+
+volumes:
+  service-user-data:
+    driver: local
