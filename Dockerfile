@@ -1,26 +1,23 @@
-FROM node:18.16.1-alpine
+# Gunakan image Node.js versi 18
+FROM node:18
 
-# Create app directory
-WORKDIR /usr/src/app
+# Buat direktori untuk aplikasi Anda
+WORKDIR /app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+# Buat direktori "/app" dan atur kepemilikan ke user "jay"
+RUN chown node:node /app
 
-RUN npm install
-# If you are building your code for production
-# RUN npm ci --omit=dev
-
-# Bundle app source
+# Salin aplikasi Node.js Express Anda ke dalam container
 COPY . .
 
-# ENV PORT=5000 \
-#     DB_HOSTNAME=db-service-user \
-#     DB_NAME=service-user \
-#     DB_USERNAME=admin \
-#     DB_PASSWORD=rahasia
+# Install modul Node.js
+RUN npm install
 
+# Ekspor port yang akan digunakan oleh aplikasi Anda
 EXPOSE 5000
 
-CMD [ "npm", "run", "start" ]
+# Beralih ke user "jay"
+USER node
+
+# Jalankan aplikasi Anda
+CMD ["npm", "start"]

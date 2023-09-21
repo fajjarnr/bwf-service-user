@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bwf-service-user
+  namespace: bwf
+spec:
+  selector:
+    matchLabels:
+      app: bwf-service-user
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bwf-service-user
+    spec:
+      containers:
+        - name: bwf-service-user
+          image: fajjarnr/bwf-micro-backend:service-user
+          enviroment:
+            - PORT: 5000
+            - DB_HOSTNAME: bwf-micro.cyh0sfq8vv2a.ap-southeast-3.rds.amazonaws.com
+            - DB_NAME: service_user
+            - DB_USERNAME: admin
+            - DB_PASSWORD: rahasia123
+          ports:
+            - containerPort: 5000
+          imagePullPolicy: Always
