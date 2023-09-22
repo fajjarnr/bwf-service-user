@@ -1,23 +1,16 @@
 # Gunakan image Node.js versi 18 yang cocok dengan OpenShift
 FROM node:18-buster
 
-RUN useradd -m -s /bin/bash jay
+RUN mkdir -p /opt/src
 
-# Buat direktori untuk aplikasi Anda
-WORKDIR /app
+WORKDIR /opt/src
 
-# Salin aplikasi Node.js Express Anda ke dalam container
-COPY . .
+ADD . /opt/src
 
-# Install modul Node.js
+RUN chgrp -R 0 /opt/src && \
+    chmod -R g=u /opt/src
+
 RUN npm install
-
-RUN chown -R jay:0 /app
-
-# Ekspor port yang akan digunakan oleh aplikasi Anda
-EXPOSE 5000
-
-USER jay
 
 # Jalankan aplikasi Anda
 CMD ["npm", "start"]
