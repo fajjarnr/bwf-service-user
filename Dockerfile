@@ -1,5 +1,5 @@
 # Gunakan image Node.js versi 18 yang cocok dengan OpenShift
-FROM registry.access.redhat.com/ubi8/nodejs-18-minimal:1-75
+FROM nodeshift/centos7-s2i-nodejs:18
 
 # Buat direktori untuk aplikasi Anda
 WORKDIR /opt/app-root/src
