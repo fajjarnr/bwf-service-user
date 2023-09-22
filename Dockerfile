@@ -1,16 +1,25 @@
-# Gunakan image Node.js versi 18 yang cocok dengan OpenShift
-FROM node:18-buster
+# Gunakan image Ubuntu sebagai dasar
+FROM ubuntu
 
-RUN mkdir -p /opt/src
+# Install dependencies yang dibutuhkan
+RUN apt-get update && apt-get install -y \
+    curl \
+    nodejs \
+    npm
 
-WORKDIR /opt/src
+# Buat direktori untuk aplikasi Anda
+WORKDIR /app
 
-ADD . /opt/src
+# Salin aplikasi Node.js Express Anda ke dalam container
+COPY . .
 
-RUN chgrp -R 0 /opt/src && \
-    chmod -R g=u /opt/src
-
+# Install modul Node.js
 RUN npm install
+
+# Ekspor port yang akan digunakan oleh aplikasi Anda (ganti sesuai dengan port aplikasi Anda)
+EXPOSE 5000
+
+USER 1001
 
 # Jalankan aplikasi Anda
 CMD ["npm", "start"]
