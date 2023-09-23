@@ -36,3 +36,21 @@ spec:
           envFrom:
             - configMapRef:
                 name: env-service-user
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: bwf-service-user
+  namespace: bwf
+  labels:
+    app: bwf-service-user
+spec:
+  selector:
+    app: bwf-service-user
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+  type: ClusterIP
